@@ -60,6 +60,42 @@ class Support {
             println()
         }
 
+        fun Collection<PointValue<Char>>.printGridPointValue() {
+            val xSize: Int = this.maxOf { it.x }
+            val ySize: Int = this.maxOf { it.y }
+            print("   ")
+            fun printXHeader() {
+                (0..xSize).forEach {
+                    val blankSeparator: String = when {
+                        xSize > 50 && it < 10 -> " "
+                        xSize > 50 -> ""
+                        it < 10 -> "  "
+                        it < 100 -> " "
+                        else -> ""
+                    }
+                    if (it < 100) print("$it$blankSeparator")
+                }
+            }
+            printXHeader()
+            println()
+            val pointsSet = this.toSet()
+            val separator = if (xSize > 50) { " " } else { "  " }
+            (0..ySize).forEach { y ->
+                if (y < 10) { print(" $y ") } else if (y < 100){ print("$y ") } else { print("   ") }
+                (0..xSize).forEach { x ->
+                    if (pointsSet.contains(Point(x, y))) {
+                        print("${pointsSet.get(Point(x, y))?.value ?: '.'}$separator")
+                    } else {
+                        print(".$separator")
+                    }
+                }
+                println(y)
+            }
+            print("   ")
+            printXHeader()
+            println()
+        }
+
         fun Collection<Point>.printGridSimple() {
             val minX = this.minOf { it.x }
             val minY = this.minOf { it.y }
